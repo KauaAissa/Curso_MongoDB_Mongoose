@@ -1,0 +1,34 @@
+# Comandos utilizados
+
+## Mostrar bancos
+show dbs
+
+## Criar novo banco e trocar banco
+use novobanco
+
+## Criando collection e inserindo dados
+db.teste.insertOne({ a: 5 }) 
+
+## Vizualizar banco atual
+db
+
+## Encontrando dados na collection
+db.pessoas.find()
+db.pessoas.find({nome: "João"})
+
+## Função pretty
+db.pessoas.find({}).pretty()
+
+## Criando collection manualmente
+db.createCollection("minhacolecao", {capped:true, size:1000, max:3})
+
+## Exibindo collections
+show collections
+
+## Removendo collections
+db.<collection>.drop()
+
+## Removendo banco de dados
+db.dropDatabase()
+
+
