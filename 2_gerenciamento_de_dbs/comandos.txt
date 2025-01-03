@@ -30,5 +30,3 @@ db.<collection>.drop()
 
 ## Removendo banco de dados
 db.dropDatabase()
-
-
