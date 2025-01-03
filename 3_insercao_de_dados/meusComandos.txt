@@ -1,0 +1,42 @@
+# Inserção de dados
+
+## Inserindo dados
+db.<collection>.insertOne({<dados})
+
+db.create.insertOne({ nome: "Matheus", idade: 30, esta_trabalhando: true, hobies:["jogar","programar"]})
+db.create.insertOne({nome: "Maria", idade:25})
+
+## Exercicio 5
+
+db.provas.insertOne({nome:"João", notas:[2,3,7,2]})
+db.provas.insertOne({nome:"Felipe", notas:[7,4,8,10]})
+db.provas.find()
+
+## Inserindo varios dados
+db.collection.insertMany([{dados},{dados}])
+
+db.provas.insertMany([{nome:"Leonardo" notas:[10,4,5]}, {nome:"Mauricio", notas:[5,5,4]}])
+
+## Exercicio 6
+db.mercado.insertMany([{nome:"Refrigerante", valor:5.99, disponibilidade:500},{nome:"detergente",valor:2.50,disponibilidade:996}])
+
+## Metodo insert antigo
+db.mercado.insert({nome:"Macarrão", valor:22})
+
+## alterando o id dos dados inseridos
+db.mercado.insertOne({_id:"1001", nome:"Vassoura", valor:52.20})
+
+## write concern
+db.mercado.insertMany([{nome:"ameixa", valor:2.50},{nome:"Tomate", valor:1}], {w: "majority", wtimeout: 200})
+
+## Tarefa 2
+use dadosDeCarros
+
+db.carros.insertMany([
+  {_id: "c01", marca: "Ferrari", modelo: "f40", ano_fabricacao: 2012, km: 40000},
+  {_id: "c02", marca: "Fiat", modelo: "Uno", ano_fabricacao: 2008, km: 150000},
+  {_id: "c03", marca: "VW", modelo: "Polo", ano_fabricacao: 2019, km: 15000},
+  {_id: "c04", marca: "GM", modelo: "Onix", ano_fabricacao: 2018, km: 43000}
+])
+
+db.carros.find().pretty()
