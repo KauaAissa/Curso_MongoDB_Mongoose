@@ -1,0 +1,17 @@
+# DELETE
+
+## Deletando um dado
+db.books.deleteOne({_id:20})
+
+## Deletando varios dados
+db.books.deleteMany({categories:"Java"})
+
+## Exercicio 11
+db.books.deleteOne({isbn:"1933988320"}
+db.books.find({isbn:"1933988320"}).count()
+
+db.books.deleteMany({categories:"PowerBuilder"})
+db.books.find({categories:"PowerBuilder"}).count()
+
+## Removendo todos os dados
+db.books.deleteMany({})
