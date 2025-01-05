@@ -1,0 +1,36 @@
+# Operadores de Query
+
+## Importando banco
+mongoimport restaurant.json -d restauranteData -c restaurante
+
+## Operador de igualdade $eq
+db.restaurante.findOne({rating: {$eq:5}})
+
+## Operador maior e maior igual $gt $gte
+db.restaurante.findOne({rating: {$gte: 4}})
+db.restaurante.findOne({rating: {$gt: 4}})
+
+## Exercicio 13
+db.restaurante.findOne({rating: {$gte: 3}})
+db.restaurante.findOne({rating: {$gte: 3}, type_of_food:"Breakfast"})
+
+## Operador menor e menor ou igual $lt $lte
+db.restaurante.findOne({rating: {$lt:3}})
+db.restaurante.findOne({rating: {$lte:3}})
+
+## Operador $in
+db.restaurante.find({type_of_food: {$in : ["Pizza", "Chinese"]}})
+
+## Operador $ne
+db.restaurante.findOne({rating: {$ne: 5}})
+
+## Operador $exists
+db.restaurante.find({high_score: {$exists: true}})
+
+## Exercicio 14
+db.restaurante.updateMany({rating: {$lte: 2}}, {$set: {less_score: true}})
+db.restaurante.find({less_score: {$exists: true}})
+
+## Operador $text
+db.restaurants.createIndex( { name: "text" } )
+db.restaurants.find({$text: {$search: "pizza"}}).pretty()
