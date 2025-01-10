@@ -1,0 +1,93 @@
+# Relacionamentos
+
+## Embedded Documents
+
+### One to One
+db.embedded.insertOne({
+    nome: "Kauã",
+    idade:30,
+    endereco: {
+        rua: "Rua das flores",
+        numero:"1312",
+        complemento:"Casa"
+    }
+})
+
+const kaua1 = db.embedded.findOne()
+kaua1.endereco
+
+
+### One to Many
+db.embedded.insertOne({
+    nome:"matheus",
+    idade:40,
+    enderecos: {
+
+        casa:{
+        rua: "Rua das Flores",
+        numero:"1314",
+        complemento:"Casa"
+        },
+    
+    trabalho: {
+        rua:"Rua das pedras",
+        numero:"12",
+        complemento:"Galpão"
+    }
+}
+})
+
+const matheus = db.embedded.findOne({nome:"matheus"})
+matheus.endereco.casa
+
+## Relacionamento One to One
+
+db.pessoas.insertOne({
+    nome:"Matheus",
+    idade:30,
+    profissao:"Programador"
+})
+
+const p = db.pessoas.findOne()
+
+db.enderecos.insertOne({
+    rua:"Rua das flores",
+    numero:"8719",
+    complemento:"Casa",
+    pessoa_id: p._id
+})
+
+db.enderecos.find({})
+
+db.enderecos.find({pessoa_id: p._id})
+
+## Relacionamento One to Many
+
+db.pessoas.insertOne({
+    nome:"Ronaldo",
+    idade:27,
+    profissao:"Gerente"
+})
+
+const ronaldo = db.pessoas.findOne({nome:"Ronaldo"})
+
+ronaldoId = ronaldo._id
+
+db.compras.insertMany({
+    {produtos: ["Livro", "Celular"], pessoa_id: ronaldoId},
+    {produtos: ["Agenda"], pessoa_id: ronaldoId},
+})
+
+
+## Many to Many
+db.cursos.insertMany([
+    {nome:"PHP"},
+    {nome:"JS"},
+    {nome:"SQL"}
+])
+
+db.curso_pessoa.insertMany([
+    {curso_id: js._id, pessoa_id: matheus._id},
+    {curso_id: js._id, pessoa_id: ronaldo._id},
+    {curso_id: php._id, pessoa_id: ronaldo._id},
+])
