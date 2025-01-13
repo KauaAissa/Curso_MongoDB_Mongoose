@@ -1,0 +1,57 @@
+# Seleção de arrays e documents
+
+## Selecionando dados de embedded document
+db.pessoas.find({"caracteristicas.cor_dos_olhos": "castanhos"})
+
+## Operadores com ebedded documents
+db.pessoas.find({"caracteristicas.idade": {$gt:30}})
+
+## Exercicio 15
+db.pessoas.find({"caracteristicas.peso":{$in:["60kg","92kg"]}})
+
+## Buscando por elemento em array
+db.alunos.find({matematica: 10})
+db.alunos.find({matematica: [8,8,9,7]})
+
+## Operador $all
+db.alunos.find({matematica: {$all: [8, 7]}})
+
+## Encontrando array pela quantidade de elementos
+db.alunos.find({matematica: {$size: 4}})
+
+## Seleção de array de documents
+db.produtos.find({variacoes: {cor: "verde",tamanho: "G", qtd:48}})
+
+## Operador com array de documents
+db.produtos.find({"variacoes.qtd": {$gt: 30}})
+
+## Operador $elemMatch
+db.produtos.find({"variacoes": {$elemMatch: {tamanho: {$gt:40}, cor:"Azul"} } })
+
+## Exercicio 16
+db.produtos.find({"variacoes": { $elemMatch: { tamanho: { $lt: 44 }, qtd: { $gte: 30 }}}})
+
+## Filtrando campos de embedded
+db.pessoas.find({}, {nome:1,"caracteristicas.idade":1})
+
+## Removendo id do retorno
+db.pessoas.find({}, {_id:0, nome:1, "variacoes.idade":1})
+
+## Removendo campos especificos
+db.pessoas.find({}, {altura:0, cor_dos_olhos:0})
+
+## Tarefa 5
+db.alunos.updateOne({ nome: "Matheus"}, {$set: {"quimica": [10, 9, 8, 7]}})
+db.alunos.updateOne({ nome: "Pedro"}, {$set: {"quimica": [5, 9, 6, 7]}})
+db.alunos.updateOne({ nome: "Maria"}, {$set: {"quimica": [8, 8, 8, 7]}})
+
+db.alunos.insertOne({nome:"Josias", quimica: [6,9]})
+
+db.alunos.find({quimica: {$all: [10]}})
+
+db.alunos.find({quimica: {$size: 2}})
+
+db.alunos.updateOne({quimica: {size: 2}}, {$set: {falta_provas:true}})
+db.alunos.find().pretty
+
+
