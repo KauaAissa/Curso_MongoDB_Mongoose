@@ -1,0 +1,37 @@
+# Indices (index)
+
+## codigo de importação
+mongoimport city_inspections.json -d inspectionsData -c inspections
+
+## Criando indices createIndex
+db.inspections.createIndex({certificate_number:1})
+
+## Indice em embedded documents
+db.inspections.createIndex({"adress.city": 1})
+
+## Verificar indices de uma collection
+db.inspections.getIndexes()
+
+## Listando indices do DB
+db.getCollectionNames().forEach(function(collection) {
+   indexes = db[collection].getIndexes();
+   print("Índices de " + collection + ":");
+   printjson(indexes);
+});
+
+
+## Removendo indices dropIndex
+db.inspections.dropIndex({certificate_number:1})
+
+## Removendo todos os indices
+db.inspections.dropIndexes()
+
+## Verificando estrategia de query
+db.inspections.find({certificate_number: {$gt:5000}}).explain()
+
+## Indice composto
+db.inspections.createIndex({certificate_index:1, date:1})
+
+## Indice de texto
+db.inspections.createIndex({business_name: "text" })
+
