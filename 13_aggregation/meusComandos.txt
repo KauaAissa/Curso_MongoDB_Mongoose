@@ -1,0 +1,107 @@
+# Aggegation Framework
+
+## Utilizando $bucket
+db.books.aggregate([
+    {
+        $bucket: {
+            groupBy: "pageCount",
+            boundaries: [100,200,300,400,500,600,700],
+            default: "OTHERS",
+            output: {
+                "count": {$sum:1}
+            }
+        }
+    }
+])
+
+## Grupos de dados com $bucketAuto
+db.books.aggregate([
+    {
+        $bucketAuto: {
+            groupBy: "$categories",
+            buckets:3
+        }
+    }
+])
+
+## Detalhes com $collStats
+db.books.aggregate([{$collStats: {queryExecStats: {}, count: {} } }])
+
+## Ordenando dados com $sort
+db.books.aggregate([
+    {$sort: {pageCount: 1}}
+])
+
+db.books.aggregate([
+    {$sort: {pageCount: -1}}
+])
+
+## Limitando resultados
+db.books.aggregate([
+    {$sort: {pageCount:1}},
+    {$limit: 5}
+])
+
+## Busca em campo especifico
+db.books.aggregate([
+    {$sort: {pageCount: -1}},
+    {$match: {authors: "Gavin King"}}
+])
+
+## Criando uma nova collection $out
+db.books.aggregate([
+    {$match: {categories: "Java", pageCount: {$gt:500}}},
+    {$limit: 5},
+    {$out: "bigJavaBooks"}
+])
+
+## Retornando apenas campos especificos $project
+db.books.aggregate([
+  { $sort: { pageCount: -1 } },
+  { $match: { authors: "Gavin King"}},
+  { $limit : 3 },
+  { $project: {title:1}}
+]).pretty();
+
+## Amostragem aleatoria $sample
+db.books.aggregate([
+  { $sort: { pageCount: -1 } },
+  { $match: { categories: "Java" }},
+  { $project: { title: 1 } },
+  { $sample: {size:10} ]
+]);
+
+## Pulando resultados com $skip
+db.books.aggregate([
+    {$sort: {pageCount: -1}},
+    {$match: {categories: "Java"}},
+    {$skip: 2},
+    {limit: 2}
+])
+
+## Desconstruindo arrays $unwind
+db.books.aggregate( [ 
+  { $unwind : "$categories" },
+  { $project: { categories: 1 } }
+] )
+
+## Extraindo resultados com $unwind
+db.books.aggregate([
+    {$unwind: "$authors"},
+    {$sortByCount: "$categories"}
+])
+
+## removendo campos do retorno
+db.books.aggregate([
+  { $sort: { pageCount: -1 } },
+  { $match: { categories: "PowerBuilder" }},
+  { $unset: "_id" }
+]).pretty();
+
+## Contando resultados da aggregation
+db.books.aggregate([
+  { $sort: { pageCount: -1 } },
+  { $match: { categories: "Java" }},
+  { $project: { title: 1 } },
+  { $count: "Contagem" }
+]).pretty();
